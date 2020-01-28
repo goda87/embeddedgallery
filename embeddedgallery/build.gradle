@@ -1,6 +1,18 @@
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
+publish {
+    userOrg = 'goda87'
+    repoName = 'embeddedgallery'
+    groupId = 'es.goda87'
+    artifactId = 'embeddedgallery'
+    publishVersion = '1.0.0'
+    desc = 'View to show a list of url images'
+    website = 'https://github.com/goda87/embeddedgallery'
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
