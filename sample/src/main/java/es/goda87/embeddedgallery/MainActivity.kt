@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         minigallery.setImages(urls)
-        minigallery.setOnClickListener {
-            openGallery(2, it)
-        }
+        minigallery.onItemClickListener = { openGallery(it, minigallery) }
     }
 
     private fun openGallery(position: Int, fromView: View) {
