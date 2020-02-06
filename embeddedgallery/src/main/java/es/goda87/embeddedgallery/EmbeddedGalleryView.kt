@@ -25,7 +25,7 @@ class EmbeddedGalleryView(
     fun setImages(imagesUrls: List<String>, position: Int = 0) {
         val adapter = RVAdapter(imagesUrls, Glide.with(context))
         embedded_gallery_view_pager.adapter = adapter
-        embedded_gallery_view_pager.currentItem = position % imagesUrls.size
+        embedded_gallery_view_pager.setCurrentItem(position % imagesUrls.size, false)
     }
 }
 

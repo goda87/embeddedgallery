@@ -2,10 +2,10 @@ package es.goda87.embeddedgallery
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.embedded_gallery_activity.*
 
 private const val URLS = "EMBEDDED_URLS_PARAM"
@@ -13,7 +13,12 @@ private const val POSITION = "POSITION_PARAM"
 private const val RESOURCE_BACKGROUND = "RESOURCE_BACKGROUND_PARAM"
 
 class EmbeddedGalleryActivityIntentBuilder(private val context: Context) {
+    companion object {
+        const val INTENT_TRANSITION_NAME = "embedded_gallery_transition"
+    }
+
     var backgroundResource: Int? = null
+
     fun build(images: List<String>, position: Int = 0): Intent {
         return Intent(context, EmbeddedGalleryActivity::class.java).apply {
             putStringArrayListExtra(URLS, ArrayList(images))

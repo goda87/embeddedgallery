@@ -1,7 +1,11 @@
 package es.goda87.embeddedgallery
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import es.goda87.embeddedgallery.EmbeddedGalleryActivityIntentBuilder.Companion.INTENT_TRANSITION_NAME
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -11,11 +15,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         hello_world.setOnClickListener {
-            val intent = EmbeddedGalleryActivityIntentBuilder(this).apply {
-                backgroundResource = R.drawable.ic_launcher_background
-            }.build(urls)
-            startActivity(intent)
+            openGallery(2, minigallery)
         }
+
+        minigallery.setImages(urls)
+        minigallery.setOnClickListener {
+            openGallery(2, it)
+        }
+    }
+
+    private fun openGallery(position: Int, fromView: View) {
+        val viewPair = Pair.create(fromView, INTENT_TRANSITION_NAME)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, viewPair)
+
+        val intent = EmbeddedGalleryActivityIntentBuilder(this).apply {
+            backgroundResource = android.R.color.background_light
+        }.build(urls, position)
+
+        startActivity(intent, options.toBundle())
     }
 
     private val urls = listOf(

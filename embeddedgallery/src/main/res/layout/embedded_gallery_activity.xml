@@ -8,6 +8,7 @@
 
     <es.goda87.embeddedgallery.EmbeddedGalleryView
         android:id="@+id/embedded_gallery_view"
+        android:transitionName="embedded_gallery_transition"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
