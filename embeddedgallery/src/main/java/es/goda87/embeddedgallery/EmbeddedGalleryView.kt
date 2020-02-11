@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -26,15 +27,21 @@ class EmbeddedGalleryView(
 
     private lateinit var adapter: RVAdapter
 
-    fun setImages(imagesUrls: List<String>, position: Int = 0) {
-        adapter = RVAdapter(imagesUrls, Glide.with(context)) {
+    fun setImages(imagesUrls: List<String>, position: Int = 0, zoomable: Boolean = true) {
+        adapter = RVAdapter(imagesUrls, Glide.with(context), zoomable) {
             onItemClickListener?.invoke(it)
         }
         embedded_gallery_view_pager.adapter = adapter
         embedded_gallery_view_pager.setCurrentItem(position % imagesUrls.size, false)
     }
 
-    val currentItem: Int get() = embedded_gallery_view_pager.currentItem
+    val itemCount: Int get() = adapter.itemCount
+
+    var currentItem: Int
+        get() = embedded_gallery_view_pager.currentItem
+        set(value) {
+            embedded_gallery_view_pager.setCurrentItem(value % itemCount, false)
+        }
 
     var onItemClickListener: EmbeddedGAlleryItemClickListener? = null
 }
@@ -42,10 +49,15 @@ class EmbeddedGalleryView(
 private class RVAdapter(
     private val urls: List<String>,
     private val glide: RequestManager,
+    private val zoomable: Boolean,
     private val onItemClickListener: EmbeddedGAlleryItemClickListener
 ) : RecyclerView.Adapter<PhotoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val photoView = PhotoView(parent.context).apply {
+        val photoView = if (zoomable) {
+            PhotoView(parent.context)
+        } else {
+            ImageView(parent.context)
+        }.apply {
             layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }
         return PhotoViewHolder(photoView)
@@ -59,4 +71,4 @@ private class RVAdapter(
     }
 }
 
-private class PhotoViewHolder(val photoView: PhotoView) : RecyclerView.ViewHolder(photoView)
+private class PhotoViewHolder(val photoView: ImageView) : RecyclerView.ViewHolder(photoView)

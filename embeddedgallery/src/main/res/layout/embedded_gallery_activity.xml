@@ -8,7 +8,17 @@
 
     <es.goda87.embeddedgallery.EmbeddedGalleryView
         android:id="@+id/embedded_gallery_view"
-        android:transitionName="embedded_gallery_transition"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:transitionName="embedded_gallery_transition" />
+
+    <ImageView
+        android:id="@+id/embedded_gallery_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        tools:src="@android:drawable/ic_menu_close_clear_cancel"
+        tools:visibility="visible" />
 </FrameLayout>
