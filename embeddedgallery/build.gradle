@@ -8,7 +8,7 @@ publish {
     repoName = 'embeddedgallery'
     groupId = 'es.goda87'
     artifactId = 'embeddedgallery'
-    publishVersion = '1.0.0'
+    publishVersion = '1.1.0'
     desc = 'View to show a list of url images'
     website = 'https://github.com/goda87/embeddedgallery'
 }
@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
