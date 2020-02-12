@@ -2,15 +2,32 @@ apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven-publish'
 
 publish {
-    userOrg = 'goda87'
-    repoName = 'embeddedgallery'
-    groupId = 'es.goda87'
-    artifactId = 'embeddedgallery'
-    publishVersion = '1.1.0'
-    desc = 'View to show a list of url images'
-    website = 'https://github.com/goda87/embeddedgallery'
+    userOrg = project.property("userOrg")
+    repoName = project.property("repoName")
+    groupId = project.property("groupId")
+    artifactId = project.property("artifactId")
+    publishVersion = "${project.property('version')}${project.property('versionAnnotation')}"
+    desc = project.property("desc")
+    website = project.property("website")
+}
+
+publishing {
+    repositories {
+        maven {
+            url secretProperty("privateRepositoryUrl")
+            name secretProperty("privateRepositoryName")
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = secretProperty("privateRepositoryUserName")
+                password = secretProperty("privateRepositoryToken")
+            }
+        }
+    }
 }
 
 android {
@@ -50,4 +67,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+def secretProperty(String key) {
+    def Properties properties = new Properties()
+    properties.load(rootProject.file("secret/privateRepository.properties").newDataInputStream())
+    return properties.getProperty(key, "")
 }
