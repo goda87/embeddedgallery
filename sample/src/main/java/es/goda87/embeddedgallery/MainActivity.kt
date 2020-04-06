@@ -1,6 +1,7 @@
 package es.goda87.embeddedgallery
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         minigallery.apply {
             setImages(urls, zoomable = false)
             onItemClickListener = { openGallery(it, minigallery) }
-            setViewPagerIndicator(indicatorProperties)
+            setViewPagerIndicator(indicatorProperties(baseContext))
         }
     }
 
@@ -35,13 +36,13 @@ class MainActivity : AppCompatActivity() {
             transitionView = fromView
             requestCode = REQUEST_CODE
             positionResultKey = POSITION_RESULT
-            pagerIndicatorProperties = indicatorProperties
+            pagerIndicatorProperties = indicatorProperties(baseContext)
         }.startActivity(this, urls, position)
 
-    private val indicatorProperties = ViewPagerIndicatorProperties(
+    private fun indicatorProperties(context: Context) = ViewPagerIndicatorProperties(
         visible = true,
-        dotColor = ContextCompat.getColor(baseContext, R.color.grey),
-        dotSelectedColor = ContextCompat.getColor(baseContext, R.color.blue)
+        dotColor = ContextCompat.getColor(context, R.color.grey),
+        dotSelectedColor = ContextCompat.getColor(context, R.color.blue)
     )
 
     private val urls = listOf(
