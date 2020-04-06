@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.chahinem.pageindicator.PageIndicator
+    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
         android:id="@+id/embedded_gallery_view_pager_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="bottom|center_horizontal"
         android:visibility="gone"
+        app:spi_dotSize="8dp"
+        app:spi_dotSelectedSize="8dp"
+        app:spi_dotColor="#ececec"
+        app:spi_dotSelectedColor="#0076bf"
+        app:spi_visibleDotCount="5"
+        app:spi_dotMinimumSize="6dp"
         tools:visibility="visible" />
 </merge>

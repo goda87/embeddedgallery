@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private fun openGallery(position: Int, fromView: View) {
         EmbeddedGalleryActivityBuilder().apply {
             backgroundResource = android.R.color.background_light
-            backButton = android.R.drawable.ic_menu_close_clear_cancel
+            backButton = R.drawable.icons_normal_ic_back_blue
             zoomable = true
             transitionView = fromView
             requestCode = REQUEST_CODE
