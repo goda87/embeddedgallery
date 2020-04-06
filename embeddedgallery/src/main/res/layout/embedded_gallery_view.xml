@@ -21,8 +21,8 @@
         android:visibility="gone"
         app:spi_dotSize="8dp"
         app:spi_dotSelectedSize="8dp"
-        app:spi_dotColor="#ececec"
-        app:spi_dotSelectedColor="#0076bf"
+        app:spi_dotColor="@android:color/darker_gray"
+        app:spi_dotSelectedColor="@android:color/holo_blue_dark"
         app:spi_visibleDotCount="5"
         app:spi_dotMinimumSize="6dp"
         tools:visibility="visible" />

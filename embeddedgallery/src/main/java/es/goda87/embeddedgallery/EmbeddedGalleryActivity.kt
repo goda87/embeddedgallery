@@ -18,6 +18,7 @@ private const val RESOURCE_BACKGROUND = "RESOURCE_BACKGROUND_PARAM"
 private const val BACK_BUTTON = "BACK_BUTTON_PARAM"
 private const val ZOOMABLE = "ZOOMABLE_PARAM"
 private const val POSITION_RESULT_KEY = "POSITION_RESULT_KEY_PARAM"
+private const val PAGER_INDICATOR_PROPERTIES = "PAGER_INDICATOR_PROPERTIES"
 private const val INTENT_TRANSITION_NAME = "embedded_gallery_transition"
 
 @Deprecated("", replaceWith = ReplaceWith("EmbeddedGalleryActivityBuilder"))
@@ -40,7 +41,7 @@ class EmbeddedGalleryActivityBuilder {
     var transitionView: View? = null
     var requestCode: Int = -1
     var positionResultKey: String = POSITION_RESULT_KEY
-
+    var pagerIndicatorProperties: ViewPagerIndicatorProperties? = null
 
     fun startActivity(activity: Activity, images: List<String>, position: Int = 0) {
         val intent = buildIntent(activity, images, position)
@@ -61,6 +62,7 @@ class EmbeddedGalleryActivityBuilder {
             putExtra(POSITION, position)
             putExtra(ZOOMABLE, zoomable)
             putExtra(POSITION_RESULT_KEY, positionResultKey)
+            putExtra(PAGER_INDICATOR_PROPERTIES, pagerIndicatorProperties)
             backgroundResource?.let { putExtra(RESOURCE_BACKGROUND, it) }
             backButton?.let { putExtra(BACK_BUTTON, it) }
         }
@@ -87,6 +89,9 @@ internal class EmbeddedGalleryActivity : AppCompatActivity() {
                 embedded_gallery_view.apply {
                     setImages(urls, getInt(POSITION,0), getBoolean(ZOOMABLE, true))
                     setBackgroundResource(getInt(RESOURCE_BACKGROUND, android.R.color.black))
+                    getParcelable<ViewPagerIndicatorProperties>(PAGER_INDICATOR_PROPERTIES)?.let {
+                        setViewPagerIndicator(it)
+                    }
                 }
             }
             if (containsKey(BACK_BUTTON)) {

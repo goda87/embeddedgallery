@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val REQUEST_CODE = 666
@@ -19,11 +20,14 @@ class MainActivity : AppCompatActivity() {
         hello_world.setOnClickListener {
             openGallery(minigallery.currentItem, minigallery)
         }
-        minigallery.setImages(urls, zoomable = false)
-        minigallery.onItemClickListener = { openGallery(it, minigallery) }
+        minigallery.apply {
+            setImages(urls, zoomable = false)
+            onItemClickListener = { openGallery(it, minigallery) }
+            setViewPagerIndicator(indicatorProperties)
+        }
     }
 
-    private fun openGallery(position: Int, fromView: View) {
+    private fun openGallery(position: Int, fromView: View) =
         EmbeddedGalleryActivityBuilder().apply {
             backgroundResource = android.R.color.background_light
             backButton = R.drawable.icons_normal_ic_back_blue
@@ -31,8 +35,14 @@ class MainActivity : AppCompatActivity() {
             transitionView = fromView
             requestCode = REQUEST_CODE
             positionResultKey = POSITION_RESULT
+            pagerIndicatorProperties = indicatorProperties
         }.startActivity(this, urls, position)
-    }
+
+    private val indicatorProperties = ViewPagerIndicatorProperties(
+        visible = true,
+        dotColor = ContextCompat.getColor(baseContext, R.color.grey),
+        dotSelectedColor = ContextCompat.getColor(baseContext, R.color.blue)
+    )
 
     private val urls = listOf(
         "https://misanimales.com/wp-content/uploads/2017/04/jamas-tienes-que-hacerle-a-tu-gato.jpg",
