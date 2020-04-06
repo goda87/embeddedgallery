@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.embedded_gallery_view.view.*
 
-internal typealias EmbeddedGalleryItemClickListener = (Int) -> Unit
+typealias EmbeddedGalleryItemClickListener = (Int) -> Unit
 
 class EmbeddedGalleryView(
     context: Context,
