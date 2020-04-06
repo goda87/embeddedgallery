@@ -3,14 +3,17 @@ package es.goda87.embeddedgallery
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.chahinem.pageindicator.PageIndicator
 import com.github.chrisbanes.photoview.PhotoView
 import kotlinx.android.synthetic.main.embedded_gallery_view.view.*
 
@@ -31,8 +34,13 @@ class EmbeddedGalleryView(
         adapter = RVAdapter(imagesUrls, Glide.with(context), zoomable) {
             onItemClickListener?.invoke(it)
         }
+        embedded_gallery_view_pager_indicator.count = adapter.itemCount
         embedded_gallery_view_pager.adapter = adapter
         embedded_gallery_view_pager.setCurrentItem(position % imagesUrls.size, false)
+        embedded_gallery_view_pager.registerOnPageChangeCallback(
+            OnPageChangeCallback(embedded_gallery_view_pager_indicator)
+        )
+//        embedded_gallery_view_pager_indicator.visibility = View.VISIBLE
     }
 
     val itemCount: Int get() = adapter.itemCount
@@ -72,3 +80,37 @@ private class RVAdapter(
 }
 
 private class PhotoViewHolder(val photoView: ImageView) : RecyclerView.ViewHolder(photoView)
+
+private class OnPageChangeCallback(
+    private val indicator: PageIndicator
+) : ViewPager2.OnPageChangeCallback() {
+    private var selectedPage = 0
+
+    override fun onPageSelected(position: Int) {
+//        val diff = selectedPage - position
+//        when {
+//            diff > 0 -> swipeNext(diff)
+//            diff < 0 -> swipePrevious(diff)
+//            else -> indicator.swipePrevious()
+//        }
+        (position - selectedPage).let {
+            when {
+                it > 0 -> swipeNext(it)
+                it < 0 -> swipePrevious(it)
+            }
+        }
+        selectedPage = position
+    }
+
+    private fun swipeNext(n: Int) {
+        for (i in 1..n) {
+            indicator.swipeNext()
+        }
+    }
+
+    private fun swipePrevious(n: Int) {
+        for (i in 1..-n) {
+            indicator.swipePrevious()
+        }
+    }
+}
